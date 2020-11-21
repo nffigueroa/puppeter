@@ -78,6 +78,13 @@ const csvWriter = createCsvWriter({
             item.map((it, indexIt) => (finalObj = { ...finalObj, ...{ [Object.keys(columns)[indexIt]]: it } }));
             return finalObj;
         });
+        if (result.length) {
+            result = result.sort((a, b) => {
+                const percentageA = a.PERCENTAGE_CHANGE.split('%')[0];
+                const percentageB = b.PERCENTAGE_CHANGE.split('%')[0];
+                return (percentageA - percentageB)
+            });
+        }
         console.log('Will try to write the csv file');
         await csvWriter.writeRecords(result);
         console.log('CSV Created successfully file: ' + CSV_FILE_NAME);
